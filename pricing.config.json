@@ -1,6 +1,6 @@
 {
   "base_cost": 100,
-  "age": [
+  "age": {
     "type": "integer",
     "bottom_limit": 18,
     "bracket": {
@@ -8,8 +8,7 @@
       "interval": 5,
       "amount": 20
       }
-    ]
-  },
+    },
   "gender": {
     "type": "category",
     "category_discount": {
@@ -32,7 +31,7 @@
   },
   "hasHeartDisease": {
     "type": "boolean",
-    "true" {
+    "true": {
       "percent_increase": 17
     }
   }
