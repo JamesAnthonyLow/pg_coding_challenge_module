@@ -1,0 +1,12 @@
+{
+  "required":[
+    {"name": "String"},
+    {"age": "Number"},
+    {"gender":"boolean"}
+  ],
+  "optional": [
+    {"hasAllergies":"boolean"},
+    {"hasSleepApnea":"boolean"},
+    {"hasHeartDisease": "boolean"}
+  ]
+}
