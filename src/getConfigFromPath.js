@@ -1,19 +1,31 @@
+import 'isomorphic-fetch'
+import fs from 'fs';
 import Conf from './config';
 
-function getConfigFromPath(pathObj){
-  if (typeof pathObj.url !== 'undefined') {
-    fetch(pathObj.url, {
-      method: 'get'
+function getConfigFromPath(pathObj) {
+  let fetchConfig = (urlOrPath) => {
+    let res;
+    fetch(urlOrPath).then((response) => {
+      if (response.ok) {
+        return response.blob();
+      }
+      throw new Error(`Error in network response from ${pathObj.url}`);
     }).then((response) => {
-      return response;
+      res = response;
     }).catch((err) => {
       throw new Error(err);
     });
-  } else if (typeof pathObj.path !== 'undefined') {
-    return require(`${Conf.root}/${Conf.subscriber.path}`);
-  } else {
-    throw new Error('Invalid config file');
+    return res;
   }
+  let result;
+  if (typeof pathObj.url !== 'undefined') {
+    result = fetchConfig(pathObj.url);
+  } else if (typeof pathObj.path === 'undefined') {
+    throw new Error('Invalid config file');
+  } else {
+      result = JSON.parse(fs.readFileSync(pathObj.path, 'utf8'));
+  }
+  return result;
 }
 
 export default getConfigFromPath;
