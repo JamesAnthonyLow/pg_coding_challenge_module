@@ -4,6 +4,10 @@
   "main": "src/index.js",
   "author": "James Lowenthal",
   "license": "MIT",
+  "scripts": 
+    {"test": "jest ./src",
+    "lint": "./node_modules/eslint/bin/eslint.js ./src || true"}
+  ,
   "dependencies": {
     "app-root-path": "^2.0.1",
     "babel-cli": "^6.26.0",
