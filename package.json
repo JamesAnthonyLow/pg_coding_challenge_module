@@ -19,9 +19,29 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
-    "jasmine": "^2.8.0"
+    "jasmine": "^2.8.0",
+    "jest": "^21.2.1",
+    "jest-cli": "^21.2.1"
   },
   "eslintConfig": {
     "extends": "policygenius"
+  },
+  "babel": {
+    "presets": ["es2015", "stage-0"],
+    "plugins": ["babel-plugin-transform-runtime"]
+  },
+  "jest": {
+    "modulePaths": [
+      "./src"
+    ],
+    "testPathIgnorePatterns": [
+      "./node_modules"
+    ],
+    "testRegex": "(\\.spec\\.js)",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
   }
 }
