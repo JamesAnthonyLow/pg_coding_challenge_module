@@ -1,9 +1,8 @@
-import 'isomorphic-fetch'
+import 'isomorphic-fetch';
 import fs from 'fs';
-import Conf from './config';
 
 function getConfigFromPath(pathObj) {
-  let fetchConfig = (urlOrPath) => {
+  const fetchConfig = (urlOrPath) => {
     let res;
     fetch(urlOrPath).then((response) => {
       if (response.ok) {
@@ -16,14 +15,14 @@ function getConfigFromPath(pathObj) {
       throw new Error(err);
     });
     return res;
-  }
+  };
   let result;
   if (typeof pathObj.url !== 'undefined') {
     result = fetchConfig(pathObj.url);
   } else if (typeof pathObj.path === 'undefined') {
     throw new Error('Invalid config file');
   } else {
-      result = JSON.parse(fs.readFileSync(pathObj.path, 'utf8'));
+    result = JSON.parse(fs.readFileSync(pathObj.path, 'utf8'));
   }
   return result;
 }

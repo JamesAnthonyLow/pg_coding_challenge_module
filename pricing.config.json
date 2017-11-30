@@ -1,0 +1,39 @@
+{
+  "base_cost": 100,
+  "age": [
+    "type": "integer",
+    "bottom_limit": 18,
+    "bracket": {
+      "start": 18,
+      "interval": 5,
+      "amount": 20
+      }
+    ]
+  },
+  "gender": {
+    "type": "category",
+    "category_discount": {
+      "type": "flat",
+      "male": 0,
+      "female": 12
+    }
+  },
+  "hasAllergies": {
+    "type": "boolean",
+    "true":{
+      "percent_increase": 1
+    }
+  },
+  "hasSleepApnea": {
+    "type": "boolean",
+    "true": {
+      "percent_increase": 6
+    }
+  },
+  "hasHeartDisease": {
+    "type": "boolean",
+    "true" {
+      "percent_increase": 17
+    }
+  }
+}
