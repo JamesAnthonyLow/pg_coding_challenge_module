@@ -6,7 +6,10 @@
   "license": "MIT",
   "scripts": 
     {"test": "jest ./src",
-    "lint": "./node_modules/eslint/bin/eslint.js ./src || true"}
+    "lint": "./node_modules/eslint/bin/eslint.js || true",
+    "lint-fix": "./node_modules/eslint/bin/eslint.js --fix || true",
+    "node": "./node_modules/babel-cli/bin/babel-node.js"
+    }
   ,
   "dependencies": {
     "app-root-path": "^2.0.1",
