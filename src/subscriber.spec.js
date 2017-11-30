@@ -20,6 +20,6 @@ describe('Subscriber', ()=>{
     let subscriberParams = {name: "James"};
     expect(() => {
       new Subscriber(subscriberParams);
-    }).toThrow(new Error('Invalid input for subscriber class'));
+    }).toThrow(new Error('Invalid input: required field age undefined'));
   });
 });
