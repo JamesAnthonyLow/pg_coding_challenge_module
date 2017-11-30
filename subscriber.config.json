@@ -1,8 +1,8 @@
 {
   "required":[
-    {"name": "String"},
-    {"age": "Number"},
-    {"gender":"boolean"}
+    {"name": "string"},
+    {"age": "number"},
+    {"gender":"string"}
   ],
   "optional": [
     {"hasAllergies":"boolean"},

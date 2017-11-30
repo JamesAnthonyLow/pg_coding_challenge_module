@@ -1,2 +1,2 @@
-const Conf = require('./config');
+import Conf from './config';
 console.log(Conf);
