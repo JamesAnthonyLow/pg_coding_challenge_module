@@ -1,1 +1,2 @@
-export Tickle from './tickle.js';
+const Conf = require('./config')
+console.log(Conf);
