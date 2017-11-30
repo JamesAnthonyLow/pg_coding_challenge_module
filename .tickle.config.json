@@ -1,4 +1,4 @@
 {
-  "subscribers":{"path": "./subscribers.config.json"},
+  "subscriber":{"path": "./subscriber.config.json"},
   "pricing":{"path": "./pricing.config.json"}
 }
