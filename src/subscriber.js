@@ -28,6 +28,27 @@ export default class Subscriber {
     this.copyFields(params, subscriberSchema.optional);
     this.price = 0.0;
   }
+  calculatePricing() {
+    this.price = 0.0;
+    Object.entries(this.pricingSchema).forEach(([field, rules]) => {
+      switch (rules.type) {
+        case 'base':
+          this.applyBaseRule(rules.rules);
+          break;
+        case 'integer':
+          this.applyIntegerRule(field, rules.rules);
+          break;
+        case 'category':
+          this.applyCategoryRule(field, rules.rules);
+          break;
+        case 'boolean':
+          this.applyBooleanRule(field, rules.rules);
+          break;
+        default:
+          break;
+      }
+    });
+  }
   applyBaseRule(rules) {
     Object.entries(rules).forEach(([name, rule]) => {
       switch (name) {
@@ -97,26 +118,5 @@ export default class Subscriber {
           }
         });
     }
-  }
-  calculatePricing() {
-    this.price = 0.0;
-    Object.entries(this.pricingSchema).forEach(([field, rules]) => {
-      switch (rules.type) {
-        case 'base':
-          this.applyBaseRule(rules.rules);
-          break;
-        case 'integer':
-          this.applyIntegerRule(field, rules.rules);
-          break;
-        case 'category':
-          this.applyCategoryRule(field, rules.rules);
-          break;
-        case 'boolean':
-          this.applyBooleanRule(field, rules.rules);
-          break;
-        default:
-          break;
-      }
-    });
   }
 }
