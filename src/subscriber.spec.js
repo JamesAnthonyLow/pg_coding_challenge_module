@@ -29,12 +29,12 @@ describe('Subscriber', () => {
     expect(s.gender).toBe('male');
   });
   it('copies optional fields', () => {
-    const subscriberParams = { 
-      name: 'James', 
-      age: 26, 
-      gender: 'male', 
+    const subscriberParams = {
+      name: 'James',
+      age: 26,
+      gender: 'male',
       hasAllergies: true,
-      hasHeartDisease: true
+      hasHeartDisease: true,
     };
     const s = new Subscriber(subscriberParams);
     expect(s.name).toBe('James');

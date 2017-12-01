@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 import fs from 'fs';
 
-function getConfigFromPath(pathObj) {
+export default function getConfigFromPath(pathObj) {
   const fetchConfig = (urlOrPath) => {
     let res;
     fetch(urlOrPath).then((response) => {
@@ -26,5 +26,3 @@ function getConfigFromPath(pathObj) {
   }
   return result;
 }
-
-export default getConfigFromPath;
