@@ -16,37 +16,39 @@
       }
     }
   },
-  "gender": {
-    "type": "category",
-    "rules": {
-      "category_discount": {
-        "type": "flat",
-        "male": 0,
-        "female": 12
-      }
-    }
-  },
   "hasAllergies": {
+    "type": "boolean",
     "rules": {
-      "type": "boolean",
       "true":{
         "percent_increase": 1
       }
     }
   },
   "hasSleepApnea": {
+    "type": "boolean",
     "rules": {
-      "type": "boolean",
       "true": {
         "percent_increase": 6
       }
     }
   },
   "hasHeartDisease": {
+    "type": "boolean",
     "rules": {
-      "type": "boolean",
       "true": {
         "percent_increase": 17
+      }
+    }
+  },
+  "gender": {
+    "type": "category",
+    "rules": {
+      "category_discount": {
+        "type": "flat",
+        "fields":{
+          "male": 0,
+          "female": 12
+        }
       }
     }
   }

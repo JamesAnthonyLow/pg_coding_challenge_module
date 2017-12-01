@@ -26,9 +26,10 @@ export default class Subscriber {
     }
     this.copyFields(params, subscriberSchema.required);
     this.copyFields(params, subscriberSchema.optional);
+    this.price = 0.0;
   }
   applyBaseRule(rules) {
-    Object.entries(rules).forEach((name, rule) => {
+    Object.entries(rules).forEach(([name, rule]) => {
       switch (name) {
         case 'cost':
           this.price += rule;
@@ -39,7 +40,7 @@ export default class Subscriber {
     });
   }
   applyIntegerRule(field, rules) {
-    Object.entries(rules).forEach((name, rule) => {
+    Object.entries(rules).forEach(([name, rule]) => {
       switch (name) {
         case 'bottom_limit':
           if (this[field] < rule) {
@@ -49,10 +50,10 @@ export default class Subscriber {
         case 'bracket':
           if (typeof rule.start === 'undefined' || this[field] >= rule.start) {
             let workingValue = this[field] - rule.start;
-            if (typeof rulestop !== 'undefined' && this[field] > rule.end) {
+            if (typeof rule.end !== 'undefined' && this[field] > rule.end) {
               workingValue -= (this[field] - rule.end);
             }
-            this.price += ((workingValue / rule.interval) * rule.amount);
+            this.price += (Math.floor(workingValue / rule.interval) * rule.amount);
           }
           break;
         default:
@@ -61,17 +62,57 @@ export default class Subscriber {
     });
   }
   applyCategoryRule(field, rules) {
+    Object.entries(rules).forEach(([name, rule]) => {
+      switch (name) {
+        case 'category_discount':
+          Object.entries(rule.fields).forEach(([option, discount]) => {
+            if (option === this[field]) {
+              if (rule.type === 'flat') {
+                this.price -= discount;
+              } else if (rule.type === 'percent') {
+                this.price -= discount;
+              }
+            }
+          });
+          break;
+        default:
+          break;
+      }
+    });
+  }
+  applyBooleanRule(field, rules) {
+    const rule = this[field] ? rules.true : rules.false;
+    if (typeof rule !== 'undefined') {
+      Object.entries(rule)
+        .forEach(([option, discount]) => {
+          switch (option) {
+            case 'percent_increase':
+              this.price += ((this.price * discount) / 100.0);
+              break;
+            case 'percent_decrease':
+              this.price -= ((this.price * discount) / 100.0);
+              break;
+            default:
+              break;
+          }
+        });
+    }
   }
   calculatePricing() {
-    const fields = Object.keys(this.pricingSchema);
-    this.price = 0;
-    Object.entries(fields).forEach((field, rules) => {
-      switch (field.type) {
+    this.price = 0.0;
+    Object.entries(this.pricingSchema).forEach(([field, rules]) => {
+      switch (rules.type) {
         case 'base':
           this.applyBaseRule(rules.rules);
           break;
         case 'integer':
           this.applyIntegerRule(field, rules.rules);
+          break;
+        case 'category':
+          this.applyCategoryRule(field, rules.rules);
+          break;
+        case 'boolean':
+          this.applyBooleanRule(field, rules.rules);
           break;
         default:
           break;
