@@ -1,5 +1,3 @@
-import Conf from './config';
-import getConfigFromPath from './getConfigFromPath';
 import Validator from './validate';
 
 export default class Subscriber {
@@ -104,18 +102,18 @@ export default class Subscriber {
     const rule = this[field] ? rules.true : rules.false;
     if (typeof rule !== 'undefined') {
       Object.entries(rule)
-      .forEach(([option, discount]) => {
-        switch (option) {
-          case 'percent_increase':
-            this.price += ((this.price * discount) / 100.0);
-            break;
-          case 'percent_decrease':
-            this.price -= ((this.price * discount) / 100.0);
-            break;
-          default:
-            break;
-        }
-      });
+        .forEach(([option, discount]) => {
+          switch (option) {
+            case 'percent_increase':
+              this.price += ((this.price * discount) / 100.0);
+              break;
+            case 'percent_decrease':
+              this.price -= ((this.price * discount) / 100.0);
+              break;
+            default:
+              break;
+          }
+        });
     }
   }
 }
