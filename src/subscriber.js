@@ -3,17 +3,6 @@ import getConfigFromPath from './getConfigFromPath';
 import Validator from './validate';
 
 export default class Subscriber {
-  copyFields(params, fields) {
-    let field;
-    if (typeof fields !== 'undefined') {
-      for (let i = 0; i < fields.length; i += 1) {
-        field = Object.keys(fields[i]);
-        if (typeof params[field] !== 'undefined') {
-          this[field] = params[field];
-        }
-      }
-    }
-  }
   constructor(params) {
     const subscriberSchema = getConfigFromPath(Conf.subscriber);
     const [valid, err] = Validator.checkSchema(subscriberSchema, params);
@@ -48,6 +37,17 @@ export default class Subscriber {
           break;
       }
     });
+  }
+  copyFields(params, fields) {
+    let field;
+    if (typeof fields !== 'undefined') {
+      for (let i = 0; i < fields.length; i += 1) {
+        field = Object.keys(fields[i]);
+        if (typeof params[field] !== 'undefined') {
+          this[field] = params[field];
+        }
+      }
+    }
   }
   applyBaseRule(rules) {
     Object.entries(rules).forEach(([name, rule]) => {
@@ -105,18 +105,18 @@ export default class Subscriber {
     const rule = this[field] ? rules.true : rules.false;
     if (typeof rule !== 'undefined') {
       Object.entries(rule)
-        .forEach(([option, discount]) => {
-          switch (option) {
-            case 'percent_increase':
-              this.price += ((this.price * discount) / 100.0);
-              break;
-            case 'percent_decrease':
-              this.price -= ((this.price * discount) / 100.0);
-              break;
-            default:
-              break;
-          }
-        });
+      .forEach(([option, discount]) => {
+        switch (option) {
+          case 'percent_increase':
+            this.price += ((this.price * discount) / 100.0);
+            break;
+          case 'percent_decrease':
+            this.price -= ((this.price * discount) / 100.0);
+            break;
+          default:
+            break;
+        }
+      });
     }
   }
 }
