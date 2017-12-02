@@ -1,11 +1,78 @@
 import Subscriber from './subscriber';
+const subscriberSchema = {
+  "required":[
+    {"name": "string"},
+    {"age": "number"},
+    {"gender":"string"}
+  ],
+  "optional": [
+    {"hasAllergies":"boolean"},
+    {"hasSleepApnea":"boolean"},
+    {"hasHeartDisease": "boolean"}
+  ]
+}
+const pricingSchema = {
+  "base": {
+    "type": "base",
+    "rules": {
+      "cost": 100
+    }
+  },
+  "age": {
+    "type": "integer",
+    "rules": {
+      "bottom_limit": 18,
+      "bracket": {
+        "start": 18,
+        "interval": 5,
+        "amount": 20
+      }
+    }
+  },
+  "hasAllergies": {
+    "type": "boolean",
+    "rules": {
+      "true":{
+        "percent_increase": 1
+      }
+    }
+  },
+  "hasSleepApnea": {
+    "type": "boolean",
+    "rules": {
+      "true": {
+        "percent_increase": 6
+      }
+    }
+  },
+  "hasHeartDisease": {
+    "type": "boolean",
+    "rules": {
+      "true": {
+        "percent_increase": 17
+      }
+    }
+  },
+  "gender": {
+    "type": "category",
+    "rules": {
+      "category_discount": {
+        "type": "flat",
+        "fields":{
+          "male": 0,
+          "female": 12
+        }
+      }
+    }
+  }
+}
 
 describe('Pricing functions in Subscriber class', () => {
   let s;
   beforeEach(() => {
     s = new Subscriber({
       name: 'Kelly', age: 50, gender: 'female', hasAllergies: true,
-    });
+    }, subscriberSchema, pricingSchema);
   });
   describe('applyBaseRule', () => {
     it('adds base cost', () => {
@@ -41,21 +108,21 @@ describe('Pricing functions in Subscriber class', () => {
     it('calculates correct price for kelly', () => {
       const kelly = new Subscriber({
         name: 'Kelly', age: 50, gender: 'female', hasAllergies: true,
-      });
+      }, subscriberSchema, pricingSchema);
       kelly.calculatePricing();
       expect(kelly.price).toBeCloseTo(210.20, 2);
     });
     it('calculates correct price for Josh', () => {
       const Josh = new Subscriber({
         name: 'Josh', age: 40, gender: 'male', hasSleepApnea: true,
-      });
+      }, subscriberSchema, pricingSchema);
       Josh.calculatePricing();
       expect(Josh.price).toBeCloseTo(190.80, 2);
     });
     it('calculates correct price for Brad', () => {
       const Brad = new Subscriber({
         name: 'Brad', age: 20, gender: 'male', hasHeartDisease: true,
-      });
+      }, subscriberSchema, pricingSchema);
       Brad.calculatePricing();
       expect(Brad.price).toBeCloseTo(117.00, 2);
     });
