@@ -3,13 +3,12 @@ import getConfigFromPath from './getConfigFromPath';
 import Validator from './validate';
 
 export default class Subscriber {
-  constructor(params) {
-    const subscriberSchema = getConfigFromPath(Conf.subscriber);
+  constructor(params, subscriberSchema, pricingSchema) {
     const [valid, err] = Validator.checkSchema(subscriberSchema, params);
     if (!valid) {
       throw new Error(`Invalid input: ${err}`);
     }
-    this.pricingSchema = getConfigFromPath(Conf.pricing);
+    this.pricingSchema = pricingSchema;
     if (typeof this.pricingSchema === 'undefined') {
       throw new Error('Invalid pricing schema');
     }
