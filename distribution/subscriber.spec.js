@@ -95,4 +95,23 @@ describe('Subscriber', function () {
     expect(s.hasAllergies).toBe(true);
     expect(s.hasHeartDisease).toBe(true);
   });
+  describe('calculatePricing', function () {
+    it('calculates correct price for kelly', function () {
+      expect(new _subscriber2.default({
+        name: 'Kelly', age: 50, gender: 'female', hasAllergies: true
+      }, subscriberSchema, pricingSchema).price()).toBeCloseTo(210.20, 2);
+    });
+    it('calculates correct price for Josh', function () {
+      var Josh = new _subscriber2.default({
+        name: 'Josh', age: 40, gender: 'male', hasSleepApnea: true
+      }, subscriberSchema, pricingSchema);
+      expect(Josh.price()).toBeCloseTo(190.80, 2);
+    });
+    it('calculates correct price for Brad', function () {
+      var Brad = new _subscriber2.default({
+        name: 'Brad', age: 20, gender: 'male', hasHeartDisease: true
+      }, subscriberSchema, pricingSchema);
+      expect(Brad.price()).toBeCloseTo(117.00, 2);
+    });
+  });
 });
