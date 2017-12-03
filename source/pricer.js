@@ -1,5 +1,6 @@
 export default class Pricer {
-  static applyBaseRule(rules) {
+  static applyBaseRule(rules, { currentPrice, field, value } = {}) {
+    // currentPrice arg not used but it could be in the future
     let adjustment = 0;
     Object.entries(rules).forEach(([name, rule]) => {
       switch (name) {
@@ -12,7 +13,7 @@ export default class Pricer {
     });
     return adjustment;
   }
-  static applyIntegerRule(rules, { currentPrice, field, value }) {
+  static applyIntegerRule(rules, { currentPrice, field, value } = {}) {
     // currentPrice arg not used but it could be in the future
     let adjustment = 0;
     Object.entries(rules).forEach(([name, rule]) => {
@@ -37,8 +38,8 @@ export default class Pricer {
     });
     return adjustment;
   }
-  static applyCategoryRule(rules, { currentPrice, field, value }) {
-    // currentPrice arg not used but it could be in the future
+  static applyCategoryRule(rules, { currentPrice, field, value } = {}) {
+    // currentPrice and field arg not used but they could be in the future
     let adjustment = 0;
     Object.entries(rules).forEach(([name, rule]) => {
       switch (name) {
@@ -59,23 +60,23 @@ export default class Pricer {
     });
     return adjustment;
   }
-  static applyBooleanRule(rules, { currentPrice, field, value }) {
-    // currentPrice arg not used but it could be in the future
+  static applyBooleanRule(rules, { currentPrice, field, value } = {}) {
+    // currentPrice and field arg not used but they could be in the future
     let adjustment = 0;
     const rule = value ? rules.true : rules.false;
     if (typeof rule !== 'undefined') {
-      Object.entries(rule) .forEach(([option, discount]) => {
-          switch (option) {
-            case 'percent_increase':
-              adjustment += ((currentPrice * discount) / 100.0);
-              break;
-            case 'percent_decrease':
-              adjustment -= ((currentPrice * discount) / 100.0);
-              break;
-            default:
-              break;
-          }
-        });
+      Object.entries(rule).forEach(([option, discount]) => {
+        switch (option) {
+          case 'percent_increase':
+            adjustment += ((currentPrice * discount) / 100.0);
+            break;
+          case 'percent_decrease':
+            adjustment -= ((currentPrice * discount) / 100.0);
+            break;
+          default:
+            break;
+        }
+      });
     }
     return adjustment;
   }

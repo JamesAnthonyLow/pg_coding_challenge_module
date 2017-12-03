@@ -3,7 +3,7 @@ import Pricer from './pricer';
 describe('Pricing functions in Subscriber class', () => {
   describe('applyBaseRule', () => {
     it('adds base cost', () => {
-      let rules = { cost: 100 };
+      const rules = { cost: 100 };
       expect(Pricer.applyBaseRule(rules)).toBeCloseTo(100, 2);
     });
   });
@@ -17,8 +17,8 @@ describe('Pricing functions in Subscriber class', () => {
       },
     };
     it('adds increase based on age', () => {
-      expect(Pricer.applyIntegerRule(rules, { currentPrice: 0.0, field: 'age', value: 50 })).
-        toBeCloseTo(120, 2);
+      expect(Pricer.applyIntegerRule(rules, { currentPrice: 0.0, field: 'age', value: 50 }))
+        .toBeCloseTo(120, 2);
     });
     it('throws error if bottom_limit not met', () => {
       expect(() => { Pricer.applyIntegerRule(rules, { currentPrice: 0.0, field: 'age', value: 16 }); })

@@ -17,14 +17,10 @@ export default class Subscriber {
   price() {
     let result = 0.0;
     Object.entries(this.pricingSchema).forEach(([field, rules]) => {
-      let args = { 
-        currentPrice: result, 
-        field: field, 
-        value: this[field] 
-      }
+      const args = { currentPrice: result, field, value: this[field] };
       switch (rules.type) {
         case 'base':
-          result += Pricer.applyBaseRule(rules.rules);
+          result += Pricer.applyBaseRule(rules.rules, args);
           break;
         case 'integer':
           result += Pricer.applyIntegerRule(rules.rules, args);
