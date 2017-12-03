@@ -1,14 +1,15 @@
 {
   "name": "pg_coding_challenge_module",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "distribution/index.js",
   "author": "James Lowenthal",
   "license": "MIT",
   "scripts": {
     "test": "jest ./src",
     "lint": "./node_modules/eslint/bin/eslint.js ./src || true",
     "lint-fix": "./node_modules/eslint/bin/eslint.js ./src --fix || true",
-    "node": "./node_modules/babel-cli/bin/babel-node.js"
+    "node": "./node_modules/babel-cli/bin/babel-node.js",
+    "build": "./node_modules/babel-cli/bin/babel.js ./src --presets babel-preset-es2015 --out-dir distribution"
   },
   "dependencies": {
     "app-root-path": "^2.0.1",
