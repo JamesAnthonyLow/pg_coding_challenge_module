@@ -1,4 +1,4 @@
-import Subscriber from './subscriber';
+import Subscriber from '../source/subscriber';
 const subscriberSchema = {
   required: [
     { name: 'string' },

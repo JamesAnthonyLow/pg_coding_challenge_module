@@ -1,4 +1,5 @@
-import Validator from './validate';
+import Validator from '../source/validate';
+
 
 const schema = {
   required: [

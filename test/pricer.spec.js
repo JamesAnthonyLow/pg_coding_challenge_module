@@ -1,4 +1,4 @@
-import Pricer from './pricer';
+import Pricer from '../source/pricer';
 
 describe('Pricing functions in Subscriber class', () => {
   describe('applyBaseRule', () => {
