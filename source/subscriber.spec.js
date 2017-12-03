@@ -96,4 +96,23 @@ describe('Subscriber', () => {
     expect(s.hasAllergies).toBe(true);
     expect(s.hasHeartDisease).toBe(true);
   });
+  describe('calculatePricing', () => {
+    it('calculates correct price for kelly', () => {
+      expect(new Subscriber({
+        name: 'Kelly', age: 50, gender: 'female', hasAllergies: true,
+      }, subscriberSchema, pricingSchema).price()).toBeCloseTo(210.20, 2);
+    });
+    it('calculates correct price for Josh', () => {
+      const Josh = new Subscriber({
+        name: 'Josh', age: 40, gender: 'male', hasSleepApnea: true,
+      }, subscriberSchema, pricingSchema);
+      expect(Josh.price()).toBeCloseTo(190.80, 2);
+    });
+    it('calculates correct price for Brad', () => {
+      const Brad = new Subscriber({
+        name: 'Brad', age: 20, gender: 'male', hasHeartDisease: true,
+      }, subscriberSchema, pricingSchema);
+      expect(Brad.price()).toBeCloseTo(117.00, 2);
+    });
+  });
 });
