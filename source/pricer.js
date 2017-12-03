@@ -12,7 +12,7 @@ export default class Pricer {
     });
     return adjustment;
   }
-  static applyIntegerRule(currentPrice, field, value, rules) {
+  static applyIntegerRule(rules, { currentPrice, field, value }) {
     // currentPrice arg not used but it could be in the future
     let adjustment = 0;
     Object.entries(rules).forEach(([name, rule]) => {
@@ -37,7 +37,7 @@ export default class Pricer {
     });
     return adjustment;
   }
-  static applyCategoryRule(currentPrice, field, value, rules) {
+  static applyCategoryRule(rules, { currentPrice, field, value }) {
     // currentPrice arg not used but it could be in the future
     let adjustment = 0;
     Object.entries(rules).forEach(([name, rule]) => {
@@ -59,13 +59,12 @@ export default class Pricer {
     });
     return adjustment;
   }
-  static applyBooleanRule(currentPrice, field, value, rules) {
+  static applyBooleanRule(rules, { currentPrice, field, value }) {
     // currentPrice arg not used but it could be in the future
     let adjustment = 0;
     const rule = value ? rules.true : rules.false;
     if (typeof rule !== 'undefined') {
-      Object.entries(rule)
-        .forEach(([option, discount]) => {
+      Object.entries(rule) .forEach(([option, discount]) => {
           switch (option) {
             case 'percent_increase':
               adjustment += ((currentPrice * discount) / 100.0);

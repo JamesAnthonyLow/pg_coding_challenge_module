@@ -1,8 +1,9 @@
 import Pricer from './pricer';
+
 describe('Pricing functions in Subscriber class', () => {
   describe('applyBaseRule', () => {
-    const rules = { cost: 100 };
     it('adds base cost', () => {
+      let rules = { cost: 100 };
       expect(Pricer.applyBaseRule(rules)).toBeCloseTo(100, 2);
     });
   });
@@ -16,10 +17,11 @@ describe('Pricing functions in Subscriber class', () => {
       },
     };
     it('adds increase based on age', () => {
-      expect(Pricer.applyIntegerRule(0.0, 'age', 50, rules)).toBeCloseTo(120, 2);
+      expect(Pricer.applyIntegerRule(rules, { currentPrice: 0.0, field: 'age', value: 50 })).
+        toBeCloseTo(120, 2);
     });
     it('throws error if bottom_limit not met', () => {
-      expect(() => { Pricer.applyIntegerRule(0.0, 'age', 16, rules); })
+      expect(() => { Pricer.applyIntegerRule(rules, { currentPrice: 0.0, field: 'age', value: 16 }); })
         .toThrow(new Error('age less than bottom limit of 18'));
     });
   });
@@ -34,10 +36,10 @@ describe('Pricing functions in Subscriber class', () => {
       },
     };
     it('discounts if female', () => {
-      expect(Pricer.applyCategoryRule(0.0, 'gender', 'female', rules)).toBeCloseTo(-12, 2);
+      expect(Pricer.applyCategoryRule(rules, { currentPrice: 0.0, field: 'gender', value: 'female' })).toBeCloseTo(-12, 2);
     });
     it('does nothing if male', () => {
-      expect(Pricer.applyCategoryRule(0.0, 'gender', 'male', rules)).toBeCloseTo(0, 2);
+      expect(Pricer.applyCategoryRule(rules, { currentPrice: 0.0, field: 'gender', value: 'male' })).toBeCloseTo(0, 2);
     });
   });
   describe('applyBooleanRule', () => {
@@ -47,7 +49,7 @@ describe('Pricing functions in Subscriber class', () => {
           percent_increase: 1,
         },
       };
-      expect(Pricer.applyBooleanRule(100, 'hasAllergies', 'true', rules)).toBeCloseTo(1, 2);
+      expect(Pricer.applyBooleanRule(rules, { currentPrice: 100.0, field: 'hasAllergies', value: 'true' })).toBeCloseTo(1, 2);
     });
   });
 });
