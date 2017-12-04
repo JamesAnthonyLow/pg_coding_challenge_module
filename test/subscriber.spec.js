@@ -71,12 +71,20 @@ describe('Subscriber', () => {
   it('throws an error if params do not match schema in subscriber config', () => {
     const subscriberParams = { name: 'James' };
     expect(() => {
-      new Subscriber(subscriberParams, subscriberSchema, pricingSchema);
+      new Subscriber({ 
+        params: subscriberParams, 
+        subscriberSchema: subscriberSchema, 
+        pricingSchema: pricingSchema 
+      });
     }).toThrow(new Error('Invalid input: required field age undefined'));
   });
   it('copies required fields', () => {
     const subscriberParams = { name: 'James', age: 26, gender: 'male' };
-    const s = new Subscriber(subscriberParams, subscriberSchema, pricingSchema);
+    const s = new Subscriber({ 
+      params: subscriberParams, 
+      subscriberSchema: subscriberSchema, 
+      pricingSchema: pricingSchema 
+    });
     expect(s.name).toBe('James');
     expect(s.age).toBe(26);
     expect(s.gender).toBe('male');
@@ -89,7 +97,11 @@ describe('Subscriber', () => {
       hasAllergies: true,
       hasHeartDisease: true,
     };
-    const s = new Subscriber(subscriberParams, subscriberSchema, pricingSchema);
+    const s = new Subscriber({ 
+      params: subscriberParams, 
+      subscriberSchema: subscriberSchema, 
+      pricingSchema: pricingSchema 
+    });
     expect(s.name).toBe('James');
     expect(s.age).toBe(26);
     expect(s.gender).toBe('male');
@@ -99,19 +111,40 @@ describe('Subscriber', () => {
   describe('calculatePricing', () => {
     it('calculates correct price for kelly', () => {
       expect(new Subscriber({
-        name: 'Kelly', age: 50, gender: 'female', hasAllergies: true,
-      }, subscriberSchema, pricingSchema).price()).toBeCloseTo(210.20, 2);
+        params: {
+          name: 'Kelly', 
+          age: 50, 
+          gender: 'female',
+          hasAllergies: true,
+        }, 
+        subscriberSchema: subscriberSchema, 
+        pricingSchema: pricingSchema 
+      }).price()).toBeCloseTo(210.20, 2);
     });
     it('calculates correct price for Josh', () => {
       const Josh = new Subscriber({
-        name: 'Josh', age: 40, gender: 'male', hasSleepApnea: true,
-      }, subscriberSchema, pricingSchema);
+        params: {
+          name: 'Josh', 
+          age: 40, 
+          gender: 'male', 
+          hasSleepApnea: true,
+        }, 
+        subscriberSchema: subscriberSchema, 
+        pricingSchema: pricingSchema,
+      });
       expect(Josh.price()).toBeCloseTo(190.80, 2);
     });
     it('calculates correct price for Brad', () => {
       const Brad = new Subscriber({
-        name: 'Brad', age: 20, gender: 'male', hasHeartDisease: true,
-      }, subscriberSchema, pricingSchema);
+        params: {
+          name: 'Brad', 
+          age: 20, 
+          gender: 'male', 
+          hasHeartDisease: true,
+        }, 
+        subscriberSchema: subscriberSchema, 
+        pricingSchema: pricingSchema
+      });
       expect(Brad.price()).toBeCloseTo(117.00, 2);
     });
   });

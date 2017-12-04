@@ -2,7 +2,7 @@ import Pricer from './pricer';
 import Validator from './validate';
 
 export default class Subscriber {
-  constructor(params, subscriberSchema, pricingSchema) {
+  constructor({ params, subscriberSchema, pricingSchema } = {}) {
     const [valid, err] = Validator.checkSchema(subscriberSchema, params);
     if (!valid) {
       throw new Error(`Invalid input: ${err}`);
