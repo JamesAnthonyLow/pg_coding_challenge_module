@@ -10,11 +10,7 @@ It is a node and front-end compatible module that allows the dynamic specificati
 
 This project requires ```node``` and ```npm```.  To get started simply run ```npm install``` to pull down the required node modules.  Once installed you can run the following ```npm``` scripts specified in [```package.json```](https://github.com/JamesAnthonyLow/pg_coding_challenge_module/blob/master/package.json).
 
-    "test": "./node_modules/jest/bin/jest.js ./test",
-    "lint": "./node_modules/eslint/bin/eslint.js ./source || true",
-    "build": "./node_modules/babel-cli/bin/babel.js ./source --presets babel-preset-es2015 --out-dir distribution"
-
-```bash
+```
 $ npm run test ## to run tests in ./test directory using the jest module
 $ npm run lint ## to run eslint using the policygenius configuration
 $ npm run build ## to transpile the es6 code in the ./source directory to node compatible es5 in the ./distribution directory 
@@ -22,7 +18,7 @@ $ npm run build ## to transpile the es6 code in the ./source directory to node c
 
 ### Usage
 
-PG Coding Challenge Module consists of a Subscriber class, a Pricer module, and a Validator module.  The primary usage of the module is to instantiate an instance of the Subscriber class, and in fact this is the only interface publically available.  To calculate the price of a subscriber's insurance you simply instantiate an instance of Subscriber with a) the parameters for that subscriber b) a subscriber "schema" describing the valid contents of a subscriber and c) a pricing "schema" describing the pricing model.  Both the subscriber and pricing schemas are written in JSON. The Subscriber class constructor will then check the Subscriber parameters against the description provided by the subscriber schema using the Validator module and copy the relevant fields to itself.  Finally when it is time to access the price you call the virtual getter ```price()``` to obtain the subscriber's insurance cost.  The ```price()``` method utilizes several routines from the Pricer module to dynamically interpret the pricing schema and provide a calculation:
+PG Coding Challenge Module consists of a Subscriber class, a Pricer module, and a Validator module.  The primary usage of the module is to instantiate an instance of the Subscriber class, and in fact this is the only interface publically available.  To calculate the price of a subscriber's insurance you simply instantiate an instance of Subscriber with a) the parameters for that subscriber b) a subscriber "schema" describing the valid contents of a subscriber and c) a pricing "schema" describing the pricing model.  Both the subscriber and pricing schemas are written in JSON. The Subscriber class constructor will then check the Subscriber parameters against the description provided by the subscriber schema using the Validator module and copy the relevant fields to itself.  Finally when it is time to access the price you call the virtual getter ```price()``` on the Subscriber object to obtain the subscriber's insurance cost.  The ```price()``` method utilizes several routines from the Pricer module to dynamically interpret the pricing schema and provide a calculation:
 
 ```es6
 import Subscriber from 'pg_coding_challenge_module';
@@ -53,7 +49,7 @@ console.log(`${s.name()} - $${s.price().toFixed(2)}`);
 
 ### Subscriber Schema
 
-```json
+```es6
 const subscriberSchema = {
   required: [
     { name: 'string' },
@@ -74,7 +70,7 @@ The subscriber "schema" JSON object consists of two keys ```required``` and ```o
 
 ### Pricing Schema
 
-```json
+```es6
 const pricingSchema = {
   base: {
     type: 'base',
@@ -132,18 +128,18 @@ const pricingSchema = {
 };
 ```
 
-The Pricing schema consists of keys corresponding the the relevant field names.  The values of the keys are nested objects that consist of a ```type``` key-value pair and a ```rules``` key value pair.  The valid types currently available are ```base```, ```integer```, ```category```, and ```boolean```.  Each type has a corresponding routine in the Pricer module that gets called in the ```price()``` method in order to apply the provided rules:
+The Pricing schema consists of keys corresponding the the relevant field names.  The values of the keys are nested objects that consist of a ```type``` key-value pair and a ```rules``` key value pair.  The valid types currently available are ```base```, ```integer```, ```category```, and ```boolean```.  Each type has a corresponding routine in the Pricer module that gets called in the Subscriber class ```price()``` method in order to apply the provided rules:
 
 - ```applyBaseRule``` - applies a base fixed cost.
 - ```applyIntegerRule```  - applies rules dependent upon an integer field, such as a bracketed price increase.
 - ```applyCategoryRule``` - applies rules for each option in a category, such as a discount or price increase corresponding to male/female.
 - ```applyBooleanRule``` - applies rules depending on whether or not a boolean field is either ```undefined```, true, or false.
 
-**Design Decision #3: Currently very little beyond options necessary for satisfying the spec are implemented in the Pricer module.  The idea is that because of the infrastructure more rules can be written in the future without overriding the old rules thereby continuing to extend the functionality of the PG Code Challenge Module.**
+**Design Decision #3: Currently very few options beyond what is necessary for satisfying the spec are implemented in the Pricer module.  The idea is that because of the infrastructure more rules can be added in the future and further functionality can accumulate over time.**
 
 ### Project Structure
 
-```bash
+```
 .
 |- README.md
 |- package.json (specifies dependencies and npm scripts)
@@ -170,5 +166,4 @@ The Pricing schema consists of keys corresponding the the relevant field names. 
 
 2) Rudimentary type checking using ```typeof``` was implemented due to the author's lack of familiarity with the node ecosystem, in the future it would be valuable to replace the use of the ```typeof``` keyword with a more mature system.  Some sort of type checking was deemed necessary in this instance because the PG Code Challenge Module is dependent upon the notion that developers could specify pricing rules in JSON that would depend upon the correct inputs specified in a separate subscriber JSON file.
 
-3) Currently very little beyond options necessary for satisfying the spec are implemented in the Pricer module.  The idea is that because of the infrastructure more rules can be written in the future without overriding the old rules thereby continuing to extend the functionality of the PG Code Challenge Module.
-
+3) Currently very few options beyond what is necessary for satisfying the spec are implemented in the Pricer module.  The idea is that because of the infrastructure more rules can be added in the future and further functionality can accumulate over time.
