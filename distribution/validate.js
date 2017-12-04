@@ -29,7 +29,7 @@ var Validator = {
         return [false, 'required field ' + field + ' undefined'];
       }
       if (type !== schema.required[i][field]) {
-        return [false, 'field ' + field + ' must be ' + type];
+        return [false, 'field ' + field + ' must be ' + schema.required[i][field]];
       }
     }
     for (i = 0; i < schema.optional.length; i += 1) {

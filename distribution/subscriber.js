@@ -35,7 +35,12 @@ var _validate2 = _interopRequireDefault(_validate);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Subscriber = function () {
-  function Subscriber(params, subscriberSchema, pricingSchema) {
+  function Subscriber() {
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        params = _ref.params,
+        subscriberSchema = _ref.subscriberSchema,
+        pricingSchema = _ref.pricingSchema;
+
     (0, _classCallCheck3.default)(this, Subscriber);
 
     var _Validator$checkSchem = _validate2.default.checkSchema(subscriberSchema, params),
@@ -60,10 +65,10 @@ var Subscriber = function () {
       var _this = this;
 
       var result = 0.0;
-      (0, _entries2.default)(this.pricingSchema).forEach(function (_ref) {
-        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-            field = _ref2[0],
-            rules = _ref2[1];
+      (0, _entries2.default)(this.pricingSchema).forEach(function (_ref2) {
+        var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
+            field = _ref3[0],
+            rules = _ref3[1];
 
         var args = { currentPrice: result, field: field, value: _this[field] };
         switch (rules.type) {
