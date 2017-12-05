@@ -135,7 +135,9 @@ The Pricing schema consists of keys corresponding the the relevant field names. 
 - ```applyCategoryRule``` - applies rules for each option in a category, such as a discount or price increase corresponding to male/female.
 - ```applyBooleanRule``` - applies rules depending on whether or not a boolean field is either ```undefined```, true, or false.
 
-**Design Decision #3: Currently very few options beyond what is necessary for satisfying the spec are implemented in the Pricer module.  The idea is that because of the infrastructure more rules can be added in the future and further functionality can accumulate over time.**
+**Design Decision #3: The Pricing schema is parsed in order from top to bottom (i.e, if you want the base cost to be added before everything else you include it at the top of the file).  A field specifying calculation order was considered however it was determined that this added complexibility and reduced readibility while at the same time slowing down the parsing of the pricing rules by several orders of magnitude.**
+
+**Design Decision #4: Currently very few options beyond what is necessary for satisfying the spec are implemented in the Pricer module.  The idea is that because of the infrastructure more rules can be added in the future and further functionality can accumulate over time.**
 
 ### Project Structure
 
@@ -166,4 +168,6 @@ The Pricing schema consists of keys corresponding the the relevant field names. 
 
 2) Rudimentary type checking using ```typeof``` was implemented due to the author's lack of familiarity with the node ecosystem, in the future it would be valuable to replace the use of the ```typeof``` keyword with a more mature system.  Some sort of type checking was deemed necessary in this instance because the PG Code Challenge Module is dependent upon the notion that developers could specify pricing rules in JSON that would depend upon the correct inputs specified in a separate subscriber JSON file.
 
-3) Currently very few options beyond what is necessary for satisfying the spec are implemented in the Pricer module.  The idea is that because of the infrastructure more rules can be added in the future and further functionality can accumulate over time.
+3) The Pricing schema is parsed in order from top to bottom (i.e, if you want the base cost to be added before everything else you include it at the top of the file).  A field specifying calculation order was considered however it was determined that this added complexibility and reduced readibility while at the same time slowing down the parsing of the pricing rules by several orders of magnitude.
+
+4) Currently very few options beyond what is necessary for satisfying the spec are implemented in the Pricer module.  The idea is that because of the infrastructure more rules can be added in the future and further functionality can accumulate over time.
